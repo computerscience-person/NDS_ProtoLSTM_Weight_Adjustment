@@ -1,0 +1,360 @@
+[[
+    {
+        "ruleID": 1,
+        "conditions": "playerState = 'attacking', playerCurrentAction = 'punch', distance > 6, playerHP < 5000, opponentHP < 5000",
+        "action": "punch",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 2,
+        "conditions": "playerState = 'crouch_block', playerCurrentAction = 'crouch_block', distance > 0, playerHP < 7000, opponentHP < 5000",
+        "action": "crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 3,
+        "conditions": "playerState = 'crouch_attack', playerCurrentAction = 'crouch_punch', distance < 3, playerHP > 9000, opponentHP < 5000",
+        "action": "moveBackward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 4,
+        "conditions": "playerState = 'crouch_block', playerCurrentAction = 'crouch_block', distance > 9, playerHP < 7000, opponentHP > 1000",
+        "action": "crouch_punch -> crouch_kick",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 5,
+        "conditions": "playerState = 'idle', playerCurrentAction = 'idle', distance > 6, playerHP < 1000, opponentHP < 5000",
+        "action": "kick",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 6,
+        "conditions": "playerState = 'hurt', playerCurrentAction = 'staggering', distance < 3, playerHP > 3000, opponentHP > 5000",
+        "action": "moveBackward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 7,
+        "conditions": "playerState = 'blocking', playerCurrentAction = 'block', distance > 3, playerHP < 1000, opponentHP < 7000",
+        "action": "moveForward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 8,
+        "conditions": "playerState = 'crouch_attack', playerCurrentAction = 'crouch_punch', distance > 12, playerHP > 9000, opponentHP > 9000",
+        "action": "block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 9,
+        "conditions": "playerState = 'crouch_block', playerCurrentAction = 'crouch_block', distance > 12, playerHP > 9000, opponentHP < 5000",
+        "action": "moveBackward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 10,
+        "conditions": "playerState = 'idle', playerCurrentAction = 'idle', distance < 12, playerHP < 5000, opponentHP < 3000",
+        "action": "idle -> crouch -> crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    }
+],
+[
+    {
+        "ruleID": 11,
+        "conditions": "playerState = 'hurt', playerCurrentAction = 'staggering', distance > 12, playerHP > 7000, opponentHP < 1000",
+        "action": "idle -> moveForward -> crouch_punch -> moveBackward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 12,
+        "conditions": "playerState = 'moving', playerCurrentAction = 'moveForward', distance < 12, playerHP < 5000, opponentHP < 3000",
+        "action": "crouch_punch -> block -> punch -> crouch -> crouch_kick",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 13,
+        "conditions": "playerState = 'crouching', playerCurrentAction = 'crouch', distance > 12, playerHP < 5000, opponentHP < 1000",
+        "action": "moveBackward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 14,
+        "conditions": "playerState = 'idle', playerCurrentAction = 'idle', distance < 6, playerHP > 3000, opponentHP < 7000",
+        "action": "crouch_punch",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 15,
+        "conditions": "playerState = 'crouching', playerCurrentAction = 'crouch', distance > 0, playerHP > 5000, opponentHP > 9000",
+        "action": "idle",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 16,
+        "conditions": "playerState = 'idle', playerCurrentAction = 'idle', distance < 9, playerHP > 3000, opponentHP < 5000",
+        "action": "block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 17,
+        "conditions": "playerState = 'crouch_block', playerCurrentAction = 'crouch_block', distance < 6, playerHP > 7000, opponentHP > 1000",
+        "action": "moveForward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 18,
+        "conditions": "playerState = 'crouch_attack', playerCurrentAction = 'crouch_punch', distance < 6, playerHP > 1000, opponentHP < 9000",
+        "action": "crouch_kick",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 19,
+        "conditions": "playerState = 'crouch_block', playerCurrentAction = 'crouch_block', distance < 9, playerHP > 1000, opponentHP < 3000",
+        "action": "block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 20,
+        "conditions": "playerState = 'crouch_attack', playerCurrentAction = 'crouch_punch', distance > 0, playerHP > 9000, opponentHP < 7000",
+        "action": "punch",
+        "weight": 80,
+        "wasUsed": 0
+    }
+],
+[
+    {
+        "ruleID": 21,
+        "conditions": "playerState = 'blocking', playerCurrentAction = 'block', distance > 12, playerHP < 7000, opponentHP > 7000",
+        "action": "block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 22,
+        "conditions": "playerState = 'crouching', playerCurrentAction = 'crouch', distance < 12, playerHP > 7000, opponentHP > 9000",
+        "action": "crouch",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 23,
+        "conditions": "playerState = 'idle', playerCurrentAction = 'idle', distance > 3, playerHP < 5000, opponentHP < 3000",
+        "action": "kick",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 24,
+        "conditions": "playerState = 'crouching', playerCurrentAction = 'crouch', distance > 12, playerHP < 3000, opponentHP < 1000",
+        "action": "crouch_punch",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 25,
+        "conditions": "playerState = 'moving', playerCurrentAction = 'moveForward', distance > 0, playerHP > 1000, opponentHP < 1000",
+        "action": "block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 26,
+        "conditions": "playerState = 'blocking', playerCurrentAction = 'block', distance < 0, playerHP < 3000, opponentHP < 5000",
+        "action": "crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 27,
+        "conditions": "playerState = 'crouch_attack', playerCurrentAction = 'crouch_kick', distance < 12, playerHP > 7000, opponentHP > 7000",
+        "action": "punch -> kick -> block -> moveForward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 28,
+        "conditions": "playerState = 'moving', playerCurrentAction = 'moveBackward', distance > 0, playerHP < 7000, opponentHP > 7000",
+        "action": "moveForward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 29,
+        "conditions": "playerState = 'hurt', playerCurrentAction = 'staggering', distance > 6, playerHP > 3000, opponentHP < 5000",
+        "action": "crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 30,
+        "conditions": "playerState = 'attacking', playerCurrentAction = 'punch', distance > 6, playerHP < 3000, opponentHP < 3000",
+        "action": "crouch_kick -> block -> moveBackward",
+        "weight": 80,
+        "wasUsed": 0
+    }
+],
+[
+    {
+        "ruleID": 31,
+        "conditions": "playerState = 'crouching', playerCurrentAction = 'crouch', distance > 9, playerHP > 7000, opponentHP < 7000",
+        "action": "punch -> moveBackward -> crouch -> crouch_punch -> crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 32,
+        "conditions": "playerState = 'attacking', playerCurrentAction = 'punch', distance > 6, playerHP < 9000, opponentHP < 9000",
+        "action": "kick",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 33,
+        "conditions": "playerState = 'crouch_attack', playerCurrentAction = 'crouch_kick', distance < 3, playerHP > 1000, opponentHP > 9000",
+        "action": "crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 34,
+        "conditions": "playerState = 'attacking', playerCurrentAction = 'punch', distance < 12, playerHP < 7000, opponentHP < 7000",
+        "action": "kick",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 35,
+        "conditions": "playerState = 'idle', playerCurrentAction = 'idle', distance < 0, playerHP > 5000, opponentHP > 1000",
+        "action": "idle -> moveBackward -> kick -> crouch_punch",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 36,
+        "conditions": "playerState = 'blocking', playerCurrentAction = 'block', distance > 3, playerHP > 1000, opponentHP < 9000",
+        "action": "crouch_kick -> crouch_block -> punch",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 37,
+        "conditions": "playerState = 'attacking', playerCurrentAction = 'kick', distance < 12, playerHP > 7000, opponentHP > 1000",
+        "action": "moveForward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 38,
+        "conditions": "playerState = 'moving', playerCurrentAction = 'moveForward', distance > 0, playerHP > 9000, opponentHP < 1000",
+        "action": "block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 39,
+        "conditions": "playerState = 'blocking', playerCurrentAction = 'block', distance < 6, playerHP < 3000, opponentHP < 7000",
+        "action": "crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 40,
+        "conditions": "playerState = 'hurt', playerCurrentAction = 'staggering', distance > 6, playerHP < 7000, opponentHP < 5000",
+        "action": "block -> moveForward -> crouch_kick -> punch -> crouch",
+        "weight": 80,
+        "wasUsed": 0
+    }
+],
+[
+    {
+        "ruleID": 41,
+        "conditions": "playerState = 'crouch_attack', playerCurrentAction = 'crouch_kick', distance < 3, playerHP > 5000, opponentHP > 3000",
+        "action": "moveBackward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 42,
+        "conditions": "playerState = 'crouching', playerCurrentAction = 'crouch', distance < 0, playerHP > 7000, opponentHP < 1000",
+        "action": "crouch_kick",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 43,
+        "conditions": "playerState = 'crouch_attack', playerCurrentAction = 'crouch_kick', distance < 9, playerHP > 9000, opponentHP < 3000",
+        "action": "crouch_punch",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 44,
+        "conditions": "playerState = 'hurt', playerCurrentAction = 'staggering', distance > 9, playerHP < 3000, opponentHP < 9000",
+        "action": "crouch_punch",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 45,
+        "conditions": "playerState = 'crouching', playerCurrentAction = 'crouch', distance < 6, playerHP < 7000, opponentHP > 3000",
+        "action": "crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 46,
+        "conditions": "playerState = 'crouch_block', playerCurrentAction = 'crouch_block', distance > 3, playerHP < 7000, opponentHP > 7000",
+        "action": "block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 47,
+        "conditions": "playerState = 'crouch_block', playerCurrentAction = 'crouch_block', distance > 9, playerHP < 7000, opponentHP < 3000",
+        "action": "idle -> crouch_kick -> crouch_block -> kick -> moveBackward",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 48,
+        "conditions": "playerState = 'idle', playerCurrentAction = 'idle', distance < 9, playerHP < 3000, opponentHP > 5000",
+        "action": "idle",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 49,
+        "conditions": "playerState = 'hurt', playerCurrentAction = 'staggering', distance > 0, playerHP > 3000, opponentHP > 9000",
+        "action": "block",
+        "weight": 80,
+        "wasUsed": 0
+    },
+    {
+        "ruleID": 50,
+        "conditions": "playerState = 'crouching', playerCurrentAction = 'crouch', distance > 6, playerHP > 9000, opponentHP > 9000",
+        "action": "crouch_block",
+        "weight": 80,
+        "wasUsed": 0
+    }
+]]

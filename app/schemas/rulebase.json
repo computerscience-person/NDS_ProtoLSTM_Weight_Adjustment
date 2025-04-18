@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dynamic Scripting Rulebase",
+  "description": "A rulebase for dynamic scripting implementations",
+  "type": "object",
+  "properties": {
+    "rules": {
+      "description": "A set of rules defined for the rulebase.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "ruleID": {
+            "type": "integer"
+          },
+          "weight": {
+            "type": "integer"
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "action": {
+            "type": ["string", "array"],
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["ruleID", "weight", "conditions", "action", "wasUsed"]
+      }
+    }
+  },
+  "required": ["rules"]
+}
