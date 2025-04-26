@@ -7,9 +7,9 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.115.12",
     "flax>=0.10.5",
-    "keras>=3.9.2",
     "optax>=0.2.4",
     "safetensors>=0.5.3",
+    "tf-nightly>=2.20.0.dev20250413",
 ]
 
 [project.optional-dependencies]
