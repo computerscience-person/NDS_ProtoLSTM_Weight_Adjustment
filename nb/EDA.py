@@ -247,5 +247,13 @@ def _(model, np):
     return (test_pred,)
 
 
+@app.cell
+def _(model):
+    model_filepath = "app/lstm/nds_0_0_1.keras"
+
+    model.save(model_filepath)
+    return (model_filepath,)
+
+
 if __name__ == "__main__":
     app.run()
