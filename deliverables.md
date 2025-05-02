@@ -1,6 +1,5 @@
 # Stuff to do
 
-- Modify diagrams
-- LSTM diagram: Change action predictor to boolean
-- Add metrics as context
-- Add plugging from godot.
+- Update diagrams, based on implementation of LSTM from proof of concept.
+- Update papers, based on diagrams.
+- Update presentation, contact with Allan and cooperate.
