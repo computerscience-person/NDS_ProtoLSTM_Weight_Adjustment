@@ -260,7 +260,7 @@ def _(X, sequence_length, y):
     output_layer = Dense(y.shape[1], activation='sigmoid')(lstm_layer)
     model = Model(inputs=input_layer, outputs=output_layer)
 
-    model.compile(optimizer='adam', loss='mse')
+    model.compile(optimizer='adam', loss='mse', metrics=['mse', 'mae'])
 
     history = model.fit(
         X_train,
@@ -270,8 +270,12 @@ def _(X, sequence_length, y):
         validation_data=(X_test, y_test)
     )
 
-    loss = model.evaluate(X_test, y_test)
+    loss, mse, mae = model.evaluate(X_test, y_test)
     print(f"Test Loss: {loss}")
+    print(f"MSE: {mse}")
+    print(f"MAE: {mae}")
+
+    model.save('./app/lstm/nds_0_0_2.keras', overwrite=False)
     return (
         Dense,
         Input,
@@ -284,12 +288,20 @@ def _(X, sequence_length, y):
         keras,
         loss,
         lstm_layer,
+        mae,
         model,
+        mse,
         output_layer,
         train_test_split,
         y_test,
         y_train,
     )
+
+
+@app.cell
+def _(keras, model):
+    keras.utils.plot_model(model, './nb/nds_0_0_2.png', show_shapes=True, show_layer_names=True)
+    return
 
 
 @app.cell
