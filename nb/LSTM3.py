@@ -51,12 +51,6 @@ def _(dataset_text):
 
 
 @app.cell
-def _():
-    # 
-    return
-
-
-@app.cell
 def _(dataset3, mo):
     def split_dataframe(df, reset_column, reset_value):
         """
@@ -112,19 +106,19 @@ def _(pd, split_dataframes):
 
 
 @app.cell
-def _(datasets1, output_feats):
-    datasets1[0][output_feats]
+def _(datasets1):
+    datasets1
     return
 
 
 @app.cell
 def _(datasets1):
+    import tensorflow as tf
     import numpy as np
-    from sklearn.preprocessing import MinMaxScaler, StandardScaler
-    from sklearn.compose import make_column_transformer
-    from tensorflow.keras.preprocessing.sequence import pad_sequences
+    from keras.saving import register_keras_serializable
+    from sklearn.model_selection import train_test_split
 
-    # 1. Feature Selection
+    # 1. Define input and output feature names
     input_feats = [
         'parameters.attacks_landed.lower',
         'parameters.attacks_landed.upper', 
@@ -133,104 +127,99 @@ def _(datasets1):
         'parameters.defenses.standing',
         'parameters.lower_hits', 
         'parameters.upper_hits',
-    ]  # Replace with your desired features
+    ]
     output_feats = [
-        "rule_1.0",
-        "rule_2.0",
-        "rule_3.0",
-        "rule_4.0",
-        "rule_5.0",
-        "rule_6.0",
-        "rule_7.0",
-        "rule_8.0",
-        "rule_9.0",
-        "rule_11.0",
-        "rule_12.0",
-        "rule_13.0",
-        "rule_14.0",
+        "rule_1.0", "rule_2.0", "rule_3.0", "rule_4.0", "rule_5.0",
+        "rule_6.0", "rule_7.0", "rule_8.0", "rule_9.0", "rule_11.0",
+        "rule_12.0", "rule_13.0", "rule_14.0",
     ]
 
-    # 2. Data Normalization/Scaling
-    preprocessor = make_column_transformer(
-        (MinMaxScaler(), input_feats),
-        ('passthrough', output_feats)
-    )
-    # 3. Sequence Padding/Truncation
-    max_sequence_length = 5  # Choose an appropriate length
-
-    processed_data = []
+    # 2. Prepare raw data for fitting
+    X_raw = []
+    y_raw = []
     for df in datasets1:
-        # Select features
-        feature_data = df[input_feats + output_feats].copy()
-        # print(feature_data)
-        # print(output_data)
+        X_raw.append(df[input_feats].values)
+        y_raw.append(df[output_feats].values)
 
-        # Scale the data
-        scaled_data = preprocessor.fit_transform(feature_data)
-        # print(scaled_data)
+    # 3. Pad sequences
+    max_sequence_length = 5
+    X_padded = tf.keras.preprocessing.sequence.pad_sequences(X_raw, maxlen=max_sequence_length, padding='pre', truncating='pre', dtype='float32')
+    y_padded = tf.keras.preprocessing.sequence.pad_sequences(y_raw, maxlen=max_sequence_length, padding='pre', truncating='pre', dtype='float32')
 
-        # Pad or truncate sequences
-        padded_sequence = pad_sequences(
-            [scaled_data], maxlen=max_sequence_length, padding="pre", truncating="pre", dtype='float32'
-        )[0]  # pad_sequences expects a list of sequences
-        # print(padded_sequence)
+    # X_raw is a list of arrays (timesteps x features) per sample
+    flat_X = np.concatenate(X_raw, axis=0)  # Shape: [total_timesteps, n_features]
+    X_min = flat_X.min(axis=0)              # Shape: [n_features]
+    X_max = flat_X.max(axis=0)
 
-        processed_data.append(padded_sequence)
+    # 5. Build the model
+    input_layer = tf.keras.Input(shape=(max_sequence_length, len(input_feats)), name="game_input")
+    normalized_input = tf.keras.layers.LayerNormalization(name="layer_norm")(input_layer)
+    lstm = tf.keras.layers.LSTM(64, activation='relu', return_sequences=True)(normalized_input)
+    output_layer = tf.keras.layers.TimeDistributed(tf.keras.layers.Dense(len(output_feats), activation='sigmoid'), name="rule_weights")(lstm)
 
-    # 4. Reshape into 3D Array
-    processed_data = np.array(processed_data)
-    print(f"Shape of processed data: {processed_data.shape}")
-    # print(processed_data)
-    processed_data
-    return input_feats, max_sequence_length, output_feats, processed_data
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _(input_feats, max_sequence_length, processed_data):
-    from tensorflow import keras
-    from tensorflow.keras.models import Model
-    from tensorflow.keras.layers import LSTM, Dense, Input, TimeDistributed
-    from sklearn.model_selection import train_test_split
-
-    input_feats_len = len(input_feats)
-    X = processed_data[:, :, :input_feats_len]
-    y = processed_data[:, :, input_feats_len:]
-
-    print(f"Shape of X: {X.shape}")
-    print(f"Shape of y: {y.shape}")
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, shuffle=False)
-
-    input_layer = Input(shape=(max_sequence_length, X.shape[2]))
-    lstm_layer = LSTM(64, activation='relu', return_sequences=True)(input_layer)
-    output_layer = TimeDistributed(Dense(y.shape[2], activation='sigmoid'))(lstm_layer)
-    model = Model(inputs=input_layer, outputs=output_layer)
+    model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
     model.compile(optimizer='adam', loss='mse', metrics=['mse', 'mae'])
 
-    history = model.fit(
-        X_train,
-        y_train,
-        epochs=50,
-        batch_size=5,
-        validation_data=(X_test, y_test)
-    )
+    # 6. Train the model
+    X_train, X_test, y_train, y_test = train_test_split(X_padded, y_padded, test_size=0.33, shuffle=False)
+    model.fit(X_train, y_train, epochs=50, batch_size=5, validation_data=(X_test, y_test))
 
-    loss, mse, mae = model.evaluate(X_test, y_test)
-    print(f"Test Loss: {loss}")
-    print(f"MSE: {mse}")
-    print(f"MAE: {mae}")
-    return (model,)
+    # 7. Save the model for serving
+    model.save("app/lstm/rule_adjustment_model_0_0_4.keras", overwrite=False)
+
+    return input_feats, output_feats, tf
 
 
 @app.cell
-def _(model):
-    model.save('./app/lstm/nds_0_0_3.keras', overwrite=False)
+def _(datasets1, input_feats, output_feats):
+    import keras
+    BATCH_SIZE = 3  # You can adjust the batch size
+    dataset_timeseries = []
+    for df_i in datasets1:
+        dataset_timeseries.append(keras.utils.timeseries_dataset_from_array(df_i[input_feats], df_i[output_feats], BATCH_SIZE))
+    # for dataset_t in dataset_timeseries:
+    #     for batch in dataset_t:
+    #         print(batch)
+    print(dataset_timeseries)
+    return (dataset_timeseries,)
+
+
+@app.cell
+def _(full_dataset):
+    for x_batch, y_batch in full_dataset.take(9):
+        print("X batch shape:", x_batch.shape)
+        print("Y batch shape:", y_batch.shape)
     return
+
+
+@app.cell
+def _(dataset_timeseries, input_feats, output_feats, tf):
+    full_dataset = dataset_timeseries[0]
+    for ds in dataset_timeseries[1:]:
+        full_dataset = full_dataset.concatenate(ds)
+
+    # Define input and output shapes
+    input_shape = (None, len(input_feats))
+    output_shape = (len(output_feats),)  # Corrected output shape
+
+    model1 = tf.keras.Sequential([
+        tf.keras.layers.Input(shape=input_shape, name='input_from_metrics'),
+        tf.keras.layers.LayerNormalization(name="layer_norm"),
+        tf.keras.layers.LSTM(64, activation='relu', return_sequences=False, name='lstm'),
+        tf.keras.layers.Dense(output_shape[0], activation='sigmoid') # Corrected Dense layer
+    ])
+
+    model1.compile(optimizer='adam', loss='mse', metrics=['mse', 'mae'])
+
+    # Batch and prefetch the dataset
+    SHUFFLE_BUFFER_SIZE = 5
+
+    batched_dataset = full_dataset.shuffle(SHUFFLE_BUFFER_SIZE).prefetch(tf.data.AUTOTUNE)
+
+    model1.fit(batched_dataset, epochs=25)
+
+    model1.save("app/lstm/rule_adjustment_model_0_0_5.keras", overwrite=False)
+    return (full_dataset,)
 
 
 if __name__ == "__main__":

@@ -14,6 +14,6 @@ async def hello():
 async def predict(model_input: ContextParameters):
     return "prediction"
 
-@router.post("/metrics_in")
-async def metrics_in(model_input: ContextParameters):
+@router.post("/metrics_in", status_code=201)
+async def metrics_in_ok(model_input: ContextParameters):
     return "prediction"
