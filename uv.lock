@@ -787,7 +787,6 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "fastapi", extra = ["standard"] },
-    { name = "google-generativeai" },
     { name = "pandas" },
     { name = "pydot" },
     { name = "safetensors" },
@@ -797,13 +796,14 @@ dependencies = [
 
 [package.optional-dependencies]
 nb = [
+    { name = "google-generativeai" },
     { name = "marimo" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.115.12" },
-    { name = "google-generativeai", specifier = ">=0.8.5" },
+    { name = "google-generativeai", marker = "extra == 'nb'", specifier = ">=0.8.5" },
     { name = "marimo", marker = "extra == 'nb'", specifier = ">=0.12.10" },
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "pydot", specifier = ">=3.0.4" },
