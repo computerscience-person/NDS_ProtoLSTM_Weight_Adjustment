@@ -4,7 +4,6 @@ import numpy as np
 from pathlib import Path
 from ..schemas.models import ContextParameters
 
-timesteps = 3
 input_features = 7
 
 model = None
@@ -13,7 +12,6 @@ prediction_buffer = None
 def load_model(model_path: Path):
     global model
     model = models.load_model(model_path)
-    print(model.name)
 
 def predict(input_data):
     global model
@@ -42,7 +40,6 @@ def buffer_input(input: ContextParameters):
         prediction_buffer = np.expand_dims(structured_data, axis=(0))
     else:
         prediction_buffer = np.vstack((prediction_buffer, structured_data))
-    print(prediction_buffer)
 
 def get_buffer():
     global prediction_buffer

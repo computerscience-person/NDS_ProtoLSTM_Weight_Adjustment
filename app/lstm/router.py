@@ -14,7 +14,6 @@ router.include_router(model_0_0_5.router)
 
 @router.post("/predict")
 async def predict():
-    print(predict_model(get_buffer()).tolist())
     return { "weight_adjustments": predict_model(get_buffer()).tolist() }
     
 
