@@ -18,3 +18,18 @@ nb = [
     "marimo>=0.12.10",
     "google-generativeai>=0.8.5",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
+
+[tool.pdm]
+python.use_venv = true
+
+[tool.pdm.dev-dependencies]
+test = ["pytest"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

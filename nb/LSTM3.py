@@ -222,5 +222,27 @@ def _(dataset_timeseries, input_feats, output_feats, tf):
     return (full_dataset,)
 
 
+@app.cell
+def _(mo):
+    save_button = mo.ui.run_button(label="save")
+    save_location = mo.ui.text()
+    mo.md(f'''
+    Save dataset in: {save_location} \n
+    Save preprocessed dataset? {save_button} \n
+    ''')
+    return save_button, save_location
+
+
+@app.cell
+def _(dataset_timeseries, mo, save_button, save_location):
+    mo.stop(not save_button.value)
+
+    for ds1_i, ds1 in enumerate(dataset_timeseries):
+        ds1.save(f'{save_location.value}/dataset{ds1_i}')
+
+    mo.md("Dataset saved.")
+    return
+
+
 if __name__ == "__main__":
     app.run()
