@@ -17,10 +17,12 @@ dependencies = [
 nb = [
     "marimo>=0.12.10",
     "google-generativeai>=0.8.5",
+    "matplotlib>=3.10.3",
 ]
 
 [dependency-groups]
 dev = [
+    "fastapi-sitemap>=1.0.4",
     "pytest>=8.3.5",
 ]
 
