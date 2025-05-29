@@ -13,3 +13,4 @@ wheels/
 datasets/set2/training*.txt_formatted.csv
 formatted_training_data_flattened1.csv
 .pdm-python
+__marimo__
